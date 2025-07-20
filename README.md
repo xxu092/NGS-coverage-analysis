@@ -2,7 +2,7 @@
 To calculate coverage of sequencing reads I used mosdepth.
 
 scripts I used are in `scripts/` folder. 
-Mosdepth output is in `output/` folder. bed.gz files were not uploaded due to the large file size.
+Mosdepth output is in `output/` folder. `bed.gz` files were not uploaded due to the large file size.
 
 ## Coverage analysis from BAM/CRAM file
 ### 1. First I downloaded cram file and its index file (mapped to hg38 reference genome) 
@@ -110,7 +110,7 @@ chr1    785719  787127  .       16.96
 chr1    817370  819834  .       12.37
 ```
 
-### 5. Plot the whole genome coverage using `plot-dist.py` script from the mosdepth package, in `script/` folder. 
+### 5. Plot the whole genome coverage using `plot-dist.py` script from the mosdepth package, in `scripts/` folder. 
 ```
 python scripts/plot-dist.py NA12878.mosdepth.global.dist.txt
 ```
