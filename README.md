@@ -23,7 +23,7 @@ module load samtools
 samtools faidx GCF_000001405.26_GRCh38_genomic.fna
 ```
 
-### 4.1 Run Mosdepth for the whole genome
+### 4.1 Run Mosdepth for the whole genome `scripts\mosdepth.sh`
 ```
 module load mosdepth
 mosdepth -t 16 -f dataset/GCF_000001405.26_GRCh38_genomic.fna NA12878 dataset/NA12878.hg38.cram
@@ -75,7 +75,7 @@ grep "NC_000001.11" GCF_000001405.26_GRCh38_genomic.genes.bed > h38_genomic.gene
 
 awk 'BEGIN {OFS="\t"} $1 == "NC_000001.11" {$1 = "chr1"} {print}' h38_genomic.genes.chr1.bed > h38_genomic.genes1.chr1.bed
 ```
-Run mosdepth with BED file, used -n to not print the per-base coverage. 
+Run mosdepth with BED file, used -n to not print the per-base coverage. `scripts\mosdepthBED.sh`
 ```
 module load mosdepth
 mosdepth -t 16 -n -b dataset/h38_genomic.genes1.chr1.bed -f dataset/GCF_000001405.26_GRCh38_genomic.fna NA12878chr1 dataset/NA12878.hg38.cram 
