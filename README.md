@@ -1,5 +1,5 @@
 # NGS-coverage-analysis
-To calculate coverage of sequencing reads I used mosdepth.\
+To calculate coverage of sequencing reads I used mosdepth.
 
 scripts I used are in `scripts/` folder. 
 Mosdepth output is in `output/` folder. bed.gz files were not uploaded due to the large file size.
