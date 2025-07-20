@@ -1,8 +1,8 @@
 # NGS-coverage-analysis
-To calculate coverage of sequencing reads I used mosdepth.I took 2 approaches.\
-1.Start from a BAM/CRAM file\
-2.Start from fastq raw reads.**\
+To calculate coverage of sequencing reads I used mosdepth.\
+
 scripts I used are in `scripts/` folder. 
+Mosdepth output is in `output/` folder. bed.gz files were not uploaded due to the large file size.
 
 ## Coverage analysis from BAM/CRAM file
 ### 1. First I downloaded cram file and its index file (mapped to hg38 reference genome) 
@@ -28,8 +28,9 @@ samtools faidx GCF_000001405.26_GRCh38_genomic.fna
 module load mosdepth
 mosdepth -t 16 -f dataset/GCF_000001405.26_GRCh38_genomic.fna NA12878 dataset/NA12878.hg38.cram
 ```
+### Result 
 `NA12878.mosdepth.summary.txt` file includes mean, min, max coverage of each chromosome. For the whole genome we can see mean coverage is at 14.36
-`NA12878.mosdepth.per-base.bed.gz` contains coverage at specific locations. Below is the snippet of the result
+`NA12878.mosdepth.per-base.bed.gz` contains coverage at specific locations. Below is the snippet of the result.
 ```
 chr1    0       10000   0
 chr1    10000   10001   11
@@ -70,16 +71,17 @@ awk '$8 == "gene"{print}' GCF_000001405.26_GRCh38_genomic.bed > GCF_000001405.26
 
 grep "NC_000001.11" GCF_000001405.26_GRCh38_genomic.genes.bed > h38_genomic.genes.chr1.bed
 
-#change chromosome name to match cram file
+#change the chromosome name to match cram file
 
 awk 'BEGIN {OFS="\t"} $1 == "NC_000001.11" {$1 = "chr1"} {print}' h38_genomic.genes.chr1.bed > h38_genomic.genes1.chr1.bed
 ```
-Run mosdepth with BED file
+Run mosdepth with BED file, used -n to not print the per-base coverage. 
 ```
 module load mosdepth
 mosdepth -t 16 -n -b dataset/h38_genomic.genes1.chr1.bed -f dataset/GCF_000001405.26_GRCh38_genomic.fna NA12878chr1 dataset/NA12878.hg38.cram 
 ```
-In `NA12878chr1.regions.bed.gz` file we can see the calculated coverage for gene regions.Below is snippet of the result.
+### Result
+In `NA12878chr1.regions.bed.gz` file we can see the calculated coverage for gene regions. Below is snippet of the result.
 ```
 chr1    10953   11523   .       32.76
 chr1    11873   14409   .       36.79
@@ -108,35 +110,13 @@ chr1    785719  787127  .       16.96
 chr1    817370  819834  .       12.37
 ```
 
-### 5. Plot the whole genome coverage using `plot-dist.py` script from mosdepth package
+### 5. Plot the whole genome coverage using `plot-dist.py` script from the mosdepth package, in `script/` folder. 
 ```
 python scripts/plot-dist.py NA12878.mosdepth.global.dist.txt
 ```
 
-It generates a `dist.html` file where we can visualize coverage 
+It generates a `dist.html` file where we can visualize coverage.
 
 
-## Coverage analysis from fastq file 
-When we need to generate BAM file from fastq file we can follow the following steps
-1. Download fastq raw reads and reference genome
-```
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR622/SRR622461/SRR622461.fastq.gz
-curl -O https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.26_GRCh38/GCF_000001405.26_GRCh38_genomic.fna.gz
-```
-2. Index the reference genome and perform read mapping using bwa,
-script I used is in scripts folder under the name `bwaAlign.sh`
-```
-module load bwa
-bwa index GCF_000001405.26_GRCh38_genomic.fna.gz
 
-bwa mem -t 16 dataset/GCF_000001405.26_GRCh38_genomic.fna.gz dataset/SRR622461.fastq.gz > SRR622461.sam 
-```
-3. convert SAM to BAM file and sort and index BAM file
-```
-module load samtools
-samtools view -Sb SRR622461.sam > SRR622461.bam
-samtools sort -@ 8 -o SRR622461.sorted.bam SRR622461.bam
-samtools index SRR622461.sorted.bam
-```
-Run Mosdepth on targetted region Chr1 genes with script mosdepthBED2.sh
 
