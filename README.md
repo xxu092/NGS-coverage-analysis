@@ -1,5 +1,6 @@
 # NGS-coverage-analysis
 To calculate coverage of sequencing reads I used mosdepth.
+Based on your analysis need you can perform mark duplicates with Picard before running Mosdepth.
 
 scripts I used are in `scripts/` folder. 
 Mosdepth output is in `output/` folder. `bed.gz` files were not uploaded due to the large file size.
