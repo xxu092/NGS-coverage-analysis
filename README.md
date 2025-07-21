@@ -29,7 +29,7 @@ module load mosdepth
 mosdepth -t 16 -f dataset/GCF_000001405.26_GRCh38_genomic.fna NA12878 dataset/NA12878.hg38.cram
 ```
 ### Result 
-`NA12878.mosdepth.summary.txt` file includes mean, min, max coverage of each chromosome. For the whole genome we can see mean coverage is at 14.36
+In `output/` folder `NA12878.mosdepth.summary.txt` file includes mean, min, max coverage of each chromosome. For the whole genome we can see mean coverage is at 14.36
 `NA12878.mosdepth.per-base.bed.gz` contains coverage at specific locations. Below is the snippet of the result.
 ```
 chr1    0       10000   0
